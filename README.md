@@ -6,8 +6,15 @@ To create db run:
 bun run newdb
 ```
 
+To install packages:
+```bash
+bun i
+```
+
 To start the development server run:
 ```bash
 bun run dev
 ```
-http://localhost:3000/
+
+## Swagger api documentation
+http://localhost:3000/swagger
