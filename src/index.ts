@@ -48,7 +48,7 @@ function submitScore(id:Number, body:Array<Player>): string {
 }
 
 function getScores(): any {
-  const scores = db.query("SELECT * from games;").run()
+  const scores = db.query("SELECT * from games;").all()
   return scores;
 }
 
