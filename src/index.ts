@@ -1,8 +1,10 @@
 import { Elysia, t } from "elysia";
 import { swagger } from '@elysiajs/swagger'
 import db from "./db/db";
+import { cors } from '@elysiajs/cors'
 let game = 0
 const app = new Elysia()
+  .use(cors())
   .use(swagger())
   .get("/", () => "Hello Elysia")
   .post("/players", ({ body }) => createPlayers(body as Person[]))
@@ -10,6 +12,7 @@ const app = new Elysia()
   .post("/game/:id", ({ params: { id }, body}) => submitScore(id,body as Player[]),{ 
     params: t.Object({ id: t.Numeric() }),
   })
+  .get("/scores", () => getScores())
   .listen(3000);
 
 console.log(
@@ -44,6 +47,10 @@ function submitScore(id:Number, body:Array<Player>): string {
   return winner;
 }
 
+function getScores(): any {
+  const scores = db.query("SELECT * from games;").run()
+  return scores;
+}
 
 export interface Player {
   name: string;
@@ -55,3 +62,5 @@ export interface Player {
 export interface Person {
   name: string;
 }
+
+
