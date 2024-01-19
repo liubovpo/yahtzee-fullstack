@@ -5,7 +5,7 @@ let game = 0
 const app = new Elysia()
   .use(swagger())
   .get("/", () => "Hello Elysia")
-  .post("/players", ({ body }) => createPlayers(body as Player[]))
+  .post("/players", ({ body }) => createPlayers(body as Person[]))
   .get("/game/:id", ({ params: { id } }) => startGame(id as any))
   .post("/game/:id", ({ params: { id }, body}) => submitScore(id,body as Player[]),{ 
     params: t.Object({ id: t.Numeric() }),
@@ -16,7 +16,7 @@ console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
 
-function createPlayers(list: Player[]): number {
+function createPlayers(list: Person[]): number {
   game++
   list.forEach((player) => {
     db.query(
@@ -50,4 +50,8 @@ export interface Player {
   id: number;
   game: number;
   score: number;
+}
+
+export interface Person {
+  name: string;
 }
